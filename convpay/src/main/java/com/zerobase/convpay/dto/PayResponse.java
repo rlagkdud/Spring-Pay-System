@@ -28,4 +28,12 @@ public class PayResponse {
     public void setPayedAmount(Integer payedAmount) {
         this.payedAmount = payedAmount;
     }
+
+    @Override
+    public String toString() {
+        return "PayResponse{" +
+                "payResult=" + payResult +
+                ", payedAmount=" + payedAmount +
+                '}';
+    }
 }
