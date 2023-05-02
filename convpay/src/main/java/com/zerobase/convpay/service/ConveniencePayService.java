@@ -2,20 +2,28 @@ package com.zerobase.convpay.service;
 
 import com.zerobase.convpay.dto.PayRequest;
 import com.zerobase.convpay.dto.PayResponse;
-import com.zerobase.convpay.type.MoneyUseCancleResult;
-import com.zerobase.convpay.type.MoneyUseResult;
+import com.zerobase.convpay.type.*;
 import com.zerobase.convpay.dto.PayCancleRequest;
 import com.zerobase.convpay.dto.PayCancleResponse;
-import com.zerobase.convpay.type.PayCancleResult;
-import com.zerobase.convpay.type.PayResult;
 
 public class ConveniencePayService {
     private final MoneyAdapter moneyAdapter = new MoneyAdapter();
+    private final CardAdapter cardAdapter = new CardAdapter();
 
     public PayResponse pay(PayRequest payRequest) {
-        MoneyUseResult moneyUseResult = moneyAdapter.use(payRequest.getPayAmount());
+        CardUseResult cardUseResult;
+        MoneyUseResult moneyUseResult;
 
-        if (moneyUseResult == MoneyUseResult.USE_FAIL) {
+        if(payRequest.getPayMethod() == PayMethod.CARD){
+            cardAdapter.authorization();
+            cardAdapter.approval();
+            cardUseResult = cardAdapter.capture(payRequest.getPayAmount());
+        } else{
+            moneyUseResult = moneyAdapter.use(payRequest.getPayAmount());
+        }
+
+        if (cardUseResult == CardUseResult.USE_FAIL ||
+                moneyUseResult == MoneyUseResult.USE_FAIL) {
             return new PayResponse(PayResult.FAIL, 0);
         }
         // success case

@@ -1,8 +1,12 @@
 package com.zerobase.convpay.dto;
 
 import com.zerobase.convpay.type.ConvenienceType;
+import com.zerobase.convpay.type.PayMethod;
 
 public class PayRequest {
+    // 결제 수단
+    PayMethod payMethod;
+
     // 편의점 종류
     ConvenienceType convenienceType;
     // 결제 금액
@@ -11,6 +15,20 @@ public class PayRequest {
     public PayRequest(ConvenienceType convenienceType, Integer payAmount) {
         this.convenienceType = convenienceType;
         this.payAmount = payAmount;
+    }
+
+    public PayRequest(PayMethod payMethod, ConvenienceType convenienceType, Integer payAmount) {
+        this.payMethod = payMethod;
+        this.convenienceType = convenienceType;
+        this.payAmount = payAmount;
+    }
+
+    public PayMethod getPayMethod() {
+        return payMethod;
+    }
+
+    public void setPayMethod(PayMethod payMethod) {
+        this.payMethod = payMethod;
     }
 
     public ConvenienceType getConvenienceType() {

@@ -1,6 +1,7 @@
 package com.zerobase.convpay.dto;
 
 import com.zerobase.convpay.type.ConvenienceType;
+import com.zerobase.convpay.type.PayMethod;
 
 public class PayCancleRequest {
     // 편의점 종류
@@ -9,7 +10,7 @@ public class PayCancleRequest {
     //결제 취소금액
     Integer payCancleAmount;
 
-    public PayCancleRequest(ConvenienceType convenienceType, Integer payCancleAmount) {
+    public PayCancleRequest( ConvenienceType convenienceType, Integer payCancleAmount) {
         this.convenienceType = convenienceType;
         this.payCancleAmount = payCancleAmount;
     }
