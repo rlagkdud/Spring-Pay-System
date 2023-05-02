@@ -11,19 +11,16 @@ public class ConveniencePayService {
     private final CardAdapter cardAdapter = new CardAdapter();
 
     public PayResponse pay(PayRequest payRequest) {
-        CardUseResult cardUseResult;
-        MoneyUseResult moneyUseResult;
-
-        if(payRequest.getPayMethod() == PayMethod.CARD){
-            cardAdapter.authorization();
-            cardAdapter.approval();
-            cardUseResult = cardAdapter.capture(payRequest.getPayAmount());
+        PaymentInterface paymentInterface;
+        if(payRequest.getPayMethod() == PayMethodType.CARD){
+            paymentInterface = cardAdapter;
         } else{
-            moneyUseResult = moneyAdapter.use(payRequest.getPayAmount());
+            paymentInterface = moneyAdapter;
         }
 
-        if (cardUseResult == CardUseResult.USE_FAIL ||
-                moneyUseResult == MoneyUseResult.USE_FAIL) {
+        PaymentResult payment = paymentInterface.payment(payRequest.getPayAmount());
+
+        if (payment == PaymentResult.PAYMENT_FAIL) {
             return new PayResponse(PayResult.FAIL, 0);
         }
         // success case
@@ -32,8 +29,16 @@ public class ConveniencePayService {
     }
 
     public PayCancleResponse payCancle(PayCancleRequest payCancleRequest) {
-        MoneyUseCancleResult moneyUseCancleResult = moneyAdapter.useCancle(payCancleRequest.getPayCancleAmount());
-        if(moneyUseCancleResult == MoneyUseCancleResult.MONEY_USE_CANCLE_FAIL){
+        PaymentInterface paymentInterface;
+        if(payCancleRequest.getPayMethodType() == PayMethodType.CARD){
+            paymentInterface = cardAdapter;
+        } else{
+            paymentInterface = moneyAdapter;
+        }
+
+        CanclePaymentResult canclePayment = paymentInterface.canclePayment(payCancleRequest.getPayCancleAmount());
+
+        if(canclePayment == CanclePaymentResult.CANCLE_PAYMENT_FAIL){
             return new PayCancleResponse(PayCancleResult.PAY_CANCLE_FAIL, 0);
         }
         // success case

@@ -1,9 +1,11 @@
 package com.zerobase.convpay.service;
 
+import com.zerobase.convpay.type.CanclePaymentResult;
 import com.zerobase.convpay.type.MoneyUseCancleResult;
 import com.zerobase.convpay.type.MoneyUseResult;
+import com.zerobase.convpay.type.PaymentResult;
 
-public class MoneyAdapter {
+public class MoneyAdapter implements PaymentInterface{
     public MoneyUseResult use(Integer payAmount){
         System.out.println("MoneyAdapter.use: "+ payAmount);
 
@@ -23,5 +25,23 @@ public class MoneyAdapter {
         }
         return MoneyUseCancleResult.MONEY_USE_CANCLE_SUCCESS;
 
+    }
+
+    @Override
+    public PaymentResult payment(Integer payAmount) {
+        MoneyUseResult moneyUseResult = use(payAmount);
+        if(moneyUseResult == MoneyUseResult.USE_FAIL){
+            return PaymentResult.PAYMENT_FAIL;
+        }
+        return PaymentResult.PAYMENT_SUCCESS;
+    }
+
+    @Override
+    public CanclePaymentResult canclePayment(Integer cancleAmount) {
+        MoneyUseCancleResult moneyUseCancleResult = useCancle(cancleAmount);
+        if(moneyUseCancleResult == MoneyUseCancleResult.MONEY_USE_CANCLE_FAIL){
+            return CanclePaymentResult.CANCLE_PAYMENT_FAIL;
+        }
+        return CanclePaymentResult.CANCLE_PAYMENT_SUCCESS;
     }
 }
