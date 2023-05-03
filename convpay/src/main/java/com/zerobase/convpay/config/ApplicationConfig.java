@@ -1,4 +1,3 @@
-/*
 package com.zerobase.convpay.config;
 
 import com.zerobase.convpay.service.*;
@@ -35,4 +34,3 @@ public class ApplicationConfig {
         return new DiscountByConvenience();
     }
 }
-*/
