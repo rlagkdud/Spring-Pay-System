@@ -10,12 +10,14 @@ import com.zerobase.convpay.type.ConvenienceType;
 import com.zerobase.convpay.type.PayMethodType;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class UserClient {
     public static void main(String[] args) {
         // '사용자' -> 결제시스템 -> 머니 어댑터
         ApplicationContext applicationContext =
-                new AnnotationConfigApplicationContext(ApplicationConfig.class);
+                new ClassPathXmlApplicationContext("spring-config.xml");
+
         ConveniencePayService conveniencePayService =
                 applicationContext.getBean("conveniencePayService", ConveniencePayService.class);
 
