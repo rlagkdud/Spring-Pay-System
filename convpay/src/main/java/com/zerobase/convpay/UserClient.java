@@ -1,6 +1,6 @@
 package com.zerobase.convpay;
 
-import com.zerobase.convpay.config.ApplicationConfig;
+//import com.zerobase.convpay.config.ApplicationConfig;
 import com.zerobase.convpay.dto.PayCancleRequest;
 import com.zerobase.convpay.dto.PayCancleResponse;
 import com.zerobase.convpay.dto.PayRequest;

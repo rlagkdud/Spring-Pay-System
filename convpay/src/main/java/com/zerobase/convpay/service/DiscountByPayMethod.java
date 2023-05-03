@@ -1,7 +1,9 @@
 package com.zerobase.convpay.service;
 
 import com.zerobase.convpay.dto.PayRequest;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DiscountByPayMethod implements DiscountInterface {
     @Override
     public Integer getDiscountAmount(PayRequest payRequest) {
