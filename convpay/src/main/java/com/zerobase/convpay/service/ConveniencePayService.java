@@ -17,14 +17,14 @@ public class ConveniencePayService {
     private final DiscountInterface  discountInterface;
     //private final DiscountInterface  discountInterface = new DiscountByPayMethod();
     public ConveniencePayService(Set<PaymentInterface> paymentInterfaceSet,
-                                 DiscountInterface discountByConvenience) {
+                                 DiscountInterface discountInterface) {
         paymentInterfaceSet.forEach(
                 paymentInterface -> paymentInterfaceMap.put(
                         paymentInterface.getPayMethodType(),
                         paymentInterface
                 )
         );
-        this.discountInterface = discountByConvenience;
+        this.discountInterface = discountInterface;
     }
 
     public PayResponse pay(PayRequest payRequest) {
