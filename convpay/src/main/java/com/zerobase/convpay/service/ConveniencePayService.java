@@ -19,7 +19,6 @@ public class ConveniencePayService {
     private final DiscountInterface  discountInterface;
     //private final DiscountInterface  discountInterface = new DiscountByPayMethod();
     public ConveniencePayService(Set<PaymentInterface> paymentInterfaceSet,
-                                 @Qualifier("discountByConvenience")
                                  DiscountInterface discountInterface) {
         paymentInterfaceSet.forEach(
                 paymentInterface -> paymentInterfaceMap.put(
