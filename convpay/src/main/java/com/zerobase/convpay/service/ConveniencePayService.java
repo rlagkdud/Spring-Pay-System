@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Set;
 
 @Component
-@Scope("prototype")
 public class ConveniencePayService {
     private final Map<PayMethodType, PaymentInterface> paymentInterfaceMap = new HashMap<>();
     private final DiscountInterface  discountInterface;
