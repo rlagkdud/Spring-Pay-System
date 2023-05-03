@@ -21,6 +21,20 @@ public class UserClient {
 
         ConveniencePayService conveniencePayService =
                 applicationContext.getBean("conveniencePayService", ConveniencePayService.class);
+        System.out.println("==========conveniencePayService============");
+        System.out.println(conveniencePayService);
+
+        ConveniencePayService conveniencePayService2 =
+                applicationContext.getBean("conveniencePayService", ConveniencePayService.class);
+
+        System.out.println(conveniencePayService2);
+
+        ConveniencePayService conveniencePayService3 =
+                applicationContext.getBean("conveniencePayService", ConveniencePayService.class);
+
+        System.out.println(conveniencePayService3);
+        System.out.println("==========conveniencePayService============");
+
 
         // G25 편의점에서 결제 1000원
         PayRequest payRequest = new PayRequest(PayMethodType.CARD, ConvenienceType.G25, 50);
