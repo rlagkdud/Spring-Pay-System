@@ -5,6 +5,7 @@ import com.zerobase.convpay.dto.PayResponse;
 import com.zerobase.convpay.type.*;
 import com.zerobase.convpay.dto.PayCancleRequest;
 import com.zerobase.convpay.dto.PayCancleResponse;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -17,6 +18,7 @@ public class ConveniencePayService {
     private final DiscountInterface  discountInterface;
     //private final DiscountInterface  discountInterface = new DiscountByPayMethod();
     public ConveniencePayService(Set<PaymentInterface> paymentInterfaceSet,
+                                 @Qualifier("discountByConvenience")
                                  DiscountInterface discountInterface) {
         paymentInterfaceSet.forEach(
                 paymentInterface -> paymentInterfaceMap.put(
