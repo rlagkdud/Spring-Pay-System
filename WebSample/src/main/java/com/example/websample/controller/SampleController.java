@@ -1,5 +1,6 @@
 package com.example.websample.controller;
 
+import com.example.websample.dto.ErrorResponse;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,9 +21,9 @@ public class SampleController {
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(IllegalAccessException.class)
-    public String handleIllegalAccessException(IllegalAccessException e){
-        log.error("IllegalAccessException is occured", e);
-        return "INVALIDE_ACCESS";
+    public ErrorResponse handleIllegalAccessException(IllegalAccessException e){
+        log.error("IllegalAccessException is occurred", e);
+        return new ErrorResponse("INVALIDE_ACCESS","IllegalAccessException is occurred");
     }
 
     @DeleteMapping("/order/{orderId}")
