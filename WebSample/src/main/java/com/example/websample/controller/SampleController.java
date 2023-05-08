@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.*;
 public class SampleController {
 
     @GetMapping("/order/{orderId}")
-    public String getOrder(@PathVariable("orderId") String id) {
+    public String getOrder(@PathVariable("orderId") String id) throws IllegalAccessException {
         log.info("Get some order information: " + id);
-        return "orderId:" + id + ", orderAmount:1000";
+        if ("500".equals(id)) {
+            throw new IllegalAccessException("500 is not valid order.");
+        }
+        return "orderId:" + id;
     }
 
     @DeleteMapping("/order/{orderId}")
