@@ -2,6 +2,7 @@ package com.example.websample.controller;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -15,6 +16,13 @@ public class SampleController {
             throw new IllegalAccessException("500 is not valid order.");
         }
         return "orderId:" + id;
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(IllegalAccessException.class)
+    public String handleIllegalAccessException(IllegalAccessException e){
+        log.error("IllegalAccessException is occured", e);
+        return "INVALIDE_ACCESS";
     }
 
     @DeleteMapping("/order/{orderId}")
