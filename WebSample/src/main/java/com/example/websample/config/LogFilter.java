@@ -7,7 +7,6 @@ import javax.servlet.*;
 import java.io.IOException;
 
 @Slf4j
-@Component
 public class LogFilter implements Filter {
 
     @Override
