@@ -1,12 +1,11 @@
-package com.example.websample.dto;
+package com.example.websample.exception;
 
-import com.example.websample.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class ErrorResponse {
+public class WebSampleException extends RuntimeException{
     private ErrorCode errorCode;
     private String message;
 }
