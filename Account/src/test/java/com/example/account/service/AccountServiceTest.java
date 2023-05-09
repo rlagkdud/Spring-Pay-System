@@ -48,6 +48,17 @@ class AccountServiceTest {
     }
 
     @Test
+    @DisplayName("계좌 조회 실패 - 음수 조회")
+    void testGetAccountFail() {
+        // given
+        // when
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> accountService.getAccount(-30L));
+        // then
+        assertEquals("Minus", exception.getMessage());
+    }
+
+    @Test
     @DisplayName("테스트 이름 변경")
     void testGetAccount() {
         // given
