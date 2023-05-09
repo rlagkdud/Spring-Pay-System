@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -55,12 +56,16 @@ class AccountServiceTest {
                         .accountStatus(AccountStatus.UNREGISTERED)
                         .accountNumber("6789")
                         .build()));
+        ArgumentCaptor<Long> captor = ArgumentCaptor.forClass(Long.class);
         // when
         Account account = accountService.getAccount(455L);
 
         // then
-        verify(accountRepository, times(1)).findById(anyLong());
+        verify(accountRepository, times(1)).findById(captor.capture());
         verify(accountRepository, times(0)).save(any());
+        assertEquals(455L, captor.getValue());
+        assertNotEquals(45556L, captor.getValue());
+        assertTrue(455L == captor.getValue());
         assertEquals("6789", account.getAccountNumber());
         assertEquals(AccountStatus.UNREGISTERED, account.getAccountStatus());
     }
