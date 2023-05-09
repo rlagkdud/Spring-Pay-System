@@ -20,4 +20,9 @@ public class AccountService {
                 .build();
         accountRepository.save(account);
     }
+
+    @Transactional
+    public Account getAccount(Long id){
+       return accountRepository.findById(id).get();
+    }
 }
