@@ -16,8 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class AccountServiceTest {
@@ -56,6 +59,8 @@ class AccountServiceTest {
         Account account = accountService.getAccount(455L);
 
         // then
+        verify(accountRepository, times(1)).findById(anyLong());
+        verify(accountRepository, times(0)).save(any());
         assertEquals("6789", account.getAccountNumber());
         assertEquals(AccountStatus.UNREGISTERED, account.getAccountStatus());
     }
