@@ -90,7 +90,7 @@ class AccountServiceTest {
 
     @Test
     @DisplayName("해당유저 없음 - 계좌 생성 실패")
-    void createAccountUserNotFount () {
+    void createAccountUserNotFound () {
         // given
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.empty());
