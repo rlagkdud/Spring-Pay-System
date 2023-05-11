@@ -2,6 +2,7 @@ package com.example.account.service;
 
 import com.example.account.domain.Account;
 import com.example.account.domain.AccountUser;
+import com.example.account.dto.AccountDto;
 import com.example.account.exception.AccountException;
 import com.example.account.repository.AccountRepository;
 import com.example.account.repository.AccountUserRepository;
@@ -27,7 +28,7 @@ public class AccountService {
      * 계좌저장, 계좌 정보 넘기기
      */
     @Transactional
-    public Account createAccount(Long userId, Long initBalance){
+    public AccountDto createAccount(Long userId, Long initBalance){
         // 사용자가 있는지 조회
         AccountUser accountUser = accountUserRepository.findById(userId)
                 .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
@@ -36,7 +37,9 @@ public class AccountService {
                 .map(account -> (Integer.parseInt(account.getAccountNumber()))+1 +"")
                 .orElse("1000000000");
         // 계좌저장, 계좌 정보 넘기기
-        Account savedAccount = accountRepository.save(
+
+        return AccountDto.fromEntity(
+                accountRepository.save(
                 Account.builder()
                         .accountUser(accountUser)
                         .accountStatus(IN_USE)
@@ -44,8 +47,7 @@ public class AccountService {
                         .balance(initBalance)
                         .registeredAt(LocalDateTime.now())
                         .build()
-        );
-        return savedAccount;
+        ));
 
     }
 
