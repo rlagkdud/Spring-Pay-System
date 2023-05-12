@@ -49,23 +49,8 @@ public class TransactionService {
 //        account.setBalance(accountBalance-amount);
         account.useBalance(amount);
 
-        Transaction transaction = transactionRepository.save(
-                Transaction.builder()
-                        .transactionType(TransactionType.USE)
-                        .transactionResultType(TransactionResultType.S)
-                        .account(account)
-                        .amount(amount)
-                        .balanceSnapshot(account.getBalance())
-                        .transactionId(UUID.randomUUID().toString().replace("-", ""))
-                        .transactedAt(LocalDateTime.now())
-                        .build()
-        );
+        Transaction transaction = saveAndGetTransaction(TransactionResultType.S, amount, account);
         return TransactionDto.fromEntity(transaction);
-
-
-
-
-
     }
 
     private void validateUserBalance(AccountUser user, Account account, Long amount) {
@@ -82,4 +67,23 @@ public class TransactionService {
     }
 
 
+    public void saveFailedUseTransaction(String accountNumber, Long amount) {
+        Account account = accountRepository.findByAccountNumber(accountNumber)
+                .orElseThrow(() ->new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));
+        saveAndGetTransaction(TransactionResultType.F, amount, account);
+    }
+
+    private Transaction saveAndGetTransaction(TransactionResultType transactionResultType, Long amount, Account account) {
+        return transactionRepository.save(
+                Transaction.builder()
+                        .transactionType(TransactionType.USE)
+                        .transactionResultType(transactionResultType)
+                        .account(account)
+                        .amount(amount)
+                        .balanceSnapshot(account.getBalance())
+                        .transactionId(UUID.randomUUID().toString().replace("-", ""))
+                        .transactedAt(LocalDateTime.now())
+                        .build()
+        );
+    }
 }
