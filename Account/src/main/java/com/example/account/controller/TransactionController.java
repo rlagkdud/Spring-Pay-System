@@ -48,7 +48,9 @@ public class TransactionController {
     ){
         try {
             TransactionDto transactionDto = transactionService
-                    .cancelBalance(request.getTransactionId(), request.getAccountNumber(), request.getAmount());
+                    .cancelBalance(request.getTransactionId(),
+                            request.getAccountNumber(),
+                            request.getAmount());
             return CancelBalance.Response.from(transactionDto);
         } catch (AccountException e){
             log.error("Failed to cancel balance. ");
