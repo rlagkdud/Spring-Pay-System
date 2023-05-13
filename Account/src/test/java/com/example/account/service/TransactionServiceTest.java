@@ -493,4 +493,52 @@ class TransactionServiceTest {
         assertEquals(TransactionResultType.F, captor.getValue().getTransactionResultType());
     }
 
+    @Test
+    void successQueryTransaction() {
+        // given
+        AccountUser user = AccountUser.builder()
+                .id(12L)
+                .name("Pobi").build();
+        Account account = Account.builder()
+                .id(1L)
+                .accountUser(user)
+                .balance(10000L)
+                .accountStatus(AccountStatus.IN_USE)
+                .accountNumber("1000000012").build();
+        Transaction transaction = Transaction.builder()
+                .transactionType(TransactionType.USE)
+                .transactionResultType(TransactionResultType.S)
+                .transactionId("transactionId")
+                .transactedAt(LocalDateTime.now())
+                .account(account)
+                .amount(CANCEL_AMOUNT)
+                .balanceSnapshot(9000L)
+                .build();
+        given(transactionRepository.findByTransactionId(anyString()))
+                .willReturn(Optional.of(transaction));
+        // when
+        TransactionDto transactionDto = transactionService.queryTransaction("trxId");
+
+        // then
+        assertEquals(TransactionResultType.S, transactionDto.getTransactionResultType());
+        assertEquals(TransactionType.USE, transactionDto.getTransactionType());
+        assertEquals(CANCEL_AMOUNT, transactionDto.getAmount());
+        assertEquals("transactionId", transactionDto.getTransactionId());
+    }
+
+    @Test
+    @DisplayName("해당 거래 없음 - 거래조회 실패")
+    void queryTransaction_TransactionNotFound() {
+        // given
+        given(transactionRepository.findByTransactionId(anyString()))
+                .willReturn(Optional.empty());
+
+        // when
+        AccountException accountException = assertThrows(AccountException.class,
+                () -> transactionService.queryTransaction("trxId"));
+        // then
+        assertEquals(ErrorCode.TRANSACTION_NOT_FOUND, accountException.getErrorCode());
+
+    }
+
 }
