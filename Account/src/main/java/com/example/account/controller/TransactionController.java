@@ -43,7 +43,7 @@ public class TransactionController {
     }
 
     @PostMapping("/transaction/cancel")
-    public CancelBalance.Response useBalance(
+    public CancelBalance.Response cancelBalance(
             @RequestBody @Valid CancelBalance.Request request
     ){
         try {
