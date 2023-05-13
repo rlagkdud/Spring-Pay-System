@@ -66,7 +66,7 @@ public class TransactionService {
 
     }
 
-
+    @Transactional
     public void saveFailedUseTransaction(String accountNumber, Long amount) {
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() ->new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));

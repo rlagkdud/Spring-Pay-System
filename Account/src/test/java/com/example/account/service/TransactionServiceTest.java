@@ -197,5 +197,48 @@ class TransactionServiceTest {
 
     }
 
+    @Test
+    @DisplayName("실패트랜잭션 저장 성공")
+    void saveFailedUseTransaction() {
+        // given
+        AccountUser user = AccountUser.builder()
+                .id(12L)
+                .name("Pobi").build();
+        Account account = Account.builder()
+                .accountUser(user)
+                .balance(10000L)
+                .accountStatus(AccountStatus.IN_USE)
+                .accountNumber("1000000012").build();
+
+        given(accountRepository.findByAccountNumber(anyString()))
+                .willReturn(Optional.of(account));
+
+        given(transactionRepository.save(any()))
+                .willReturn(Transaction.builder()
+                        .transactionType(TransactionType.USE)
+                        .transactionResultType(TransactionResultType.F)
+                        .transactionId("transactionId")
+                        .transactedAt(LocalDateTime.now())
+                        .account(account)
+                        .amount(1000L)
+                        .balanceSnapshot(9000L)
+                        .build()
+                );
+        ArgumentCaptor<Transaction> captor = ArgumentCaptor.forClass(Transaction.class);
+
+        // when
+        // void 메소드기 때문에 하위 의존성인 saveAndAgetTransactio()에서 반환하는 Transaction을 captor해서 확인함.
+        transactionService
+                .saveFailedUseTransaction( "1000000000", USE_AMOUNT);
+
+        // then
+        verify(transactionRepository, times(1)).save(captor.capture());
+        assertEquals(USE_AMOUNT, captor.getValue().getAmount());
+        assertEquals(10000L, captor.getValue().getBalanceSnapshot());
+
+        assertEquals(TransactionResultType.F, captor.getValue().getTransactionResultType());
+    }
+
+
 
 }
