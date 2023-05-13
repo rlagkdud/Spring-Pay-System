@@ -36,7 +36,7 @@ public class TransactionController {
                     request.getAccountNumber(),
                     request.getAmount()
             );
-            
+
             throw e;
         }
 
