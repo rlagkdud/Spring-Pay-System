@@ -47,8 +47,8 @@ class TransactionServiceTest {
     void successUseBalance() {
         // given
         AccountUser user = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        user.setId(12L);
         Account account = Account.builder()
                 .accountUser(user)
                 .balance(10000L)
@@ -107,8 +107,8 @@ class TransactionServiceTest {
     void useBalance_AccountNotFound () {
         // given
         AccountUser user = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        user.setId(12L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(user));
 
@@ -127,11 +127,11 @@ class TransactionServiceTest {
     void useBalance_userUnMatch () {
         // given
         AccountUser pobi = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        pobi.setId(12L);
         AccountUser harry = AccountUser.builder()
-                .id(13L)
                 .name("Harry").build();
+        harry.setId(13L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(pobi));
 
@@ -152,9 +152,8 @@ class TransactionServiceTest {
     void useBalance_accountAlreadyUnregistered () {
         // given
         AccountUser pobi = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
-
+        pobi.setId(12L);
         given(accountUserRepository.findById(anyLong()))
                 .willReturn(Optional.of(pobi));
 
@@ -176,8 +175,8 @@ class TransactionServiceTest {
     void exceedAmount_UseBalance() {
         // given
         AccountUser user = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        user.setId(12L);
         Account account = Account.builder()
                 .accountUser(user)
                 .balance(100L)
@@ -204,8 +203,8 @@ class TransactionServiceTest {
     void saveFailedUseTransaction() {
         // given
         AccountUser user = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        user.setId(12L);
         Account account = Account.builder()
                 .accountUser(user)
                 .balance(10000L)
@@ -246,8 +245,8 @@ class TransactionServiceTest {
     void successCancelBalance() {
         // given
         AccountUser user = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        user.setId(12L);
         Account account = Account.builder()
                 .accountUser(user)
                 .balance(10000L)
@@ -339,20 +338,20 @@ class TransactionServiceTest {
     @DisplayName("거래와 계좌가 매칭 실패 - 잔액 사용 취소 실패")
     void cancelBalance_transactionAccountNotMatch() {
         AccountUser user = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        user.setId(12L);
         Account account = Account.builder()
-                .id(1L)
                 .accountUser(user)
                 .balance(10000L)
                 .accountStatus(AccountStatus.IN_USE)
                 .accountNumber("1000000012").build();
+        account.setId(1L);
         Account accountNotUse = Account.builder()
-                .id(2L)
                 .accountUser(user)
                 .balance(10000L)
                 .accountStatus(AccountStatus.IN_USE)
                 .accountNumber("1000000013").build();
+        accountNotUse.setId(2L);
         Transaction transaction = Transaction.builder()
                 .transactionType(TransactionType.USE)
                 .transactionResultType(TransactionResultType.S)
@@ -381,14 +380,14 @@ class TransactionServiceTest {
     @DisplayName("거래 금액과 취소 금액이 다름 - 잔액 사용 취소 실패")
     void cancelBalance_cancelMustFully() {
         AccountUser user = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        user.setId(12L);
         Account account = Account.builder()
-                .id(1L)
                 .accountUser(user)
                 .balance(10000L)
                 .accountStatus(AccountStatus.IN_USE)
                 .accountNumber("1000000012").build();
+        account.setId(1L);
         Transaction transaction = Transaction.builder()
                 .transactionType(TransactionType.USE)
                 .transactionResultType(TransactionResultType.S)
@@ -418,14 +417,14 @@ class TransactionServiceTest {
     @DisplayName("취소는 1년 까지만 가능 - 잔액 사용 취소 실패")
     void cancelBalance_tooOldOrderToCancel() {
         AccountUser user = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        user.setId(12L);
         Account account = Account.builder()
-                .id(1L)
                 .accountUser(user)
                 .balance(10000L)
                 .accountStatus(AccountStatus.IN_USE)
                 .accountNumber("1000000012").build();
+        account.setId(1L);
         Transaction transaction = Transaction.builder()
                 .transactionType(TransactionType.USE)
                 .transactionResultType(TransactionResultType.S)
@@ -456,8 +455,8 @@ class TransactionServiceTest {
     void saveFailedCancelTransaction() {
         // given
         AccountUser user = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        user.setId(12L);
         Account account = Account.builder()
                 .accountUser(user)
                 .balance(10000L)
@@ -497,14 +496,14 @@ class TransactionServiceTest {
     void successQueryTransaction() {
         // given
         AccountUser user = AccountUser.builder()
-                .id(12L)
                 .name("Pobi").build();
+        user.setId(12L);
         Account account = Account.builder()
-                .id(1L)
                 .accountUser(user)
                 .balance(10000L)
                 .accountStatus(AccountStatus.IN_USE)
                 .accountNumber("1000000012").build();
+        account.setId(1L);
         Transaction transaction = Transaction.builder()
                 .transactionType(TransactionType.USE)
                 .transactionResultType(TransactionResultType.S)
