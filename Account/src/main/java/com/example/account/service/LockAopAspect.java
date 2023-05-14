@@ -16,7 +16,6 @@ public class LockAopAspect {
     private final LockService lockService;
     @Around("@annotation(com.example.account.aop.AccountLock) && args(request)")  // befor, after 모두 실행
     public Object aroundMethod(ProceedingJoinPoint pjp, AccountLockIdInterface request) throws Throwable {
-
         // lock 취득 시도
         lockService.lock(request.getAccountNumber());
         try{
