@@ -40,7 +40,7 @@ public class AccountService {
 
         // 계좌의 번호를 생성
         String newAccountNumber = accountRepository.findFirstByOrderByIdDesc()
-                .map(account -> (Integer.parseInt(account.getAccountNumber())) + 1 + "")
+                .map(account -> (String.valueOf(Integer.parseInt(account.getAccountNumber()) + 1)))
                 .orElse("1000000000");
         // 계좌저장, 계좌 정보 넘기기
 
@@ -68,7 +68,7 @@ public class AccountService {
         if (id < 0) {
             throw new RuntimeException("Minus");
         }
-        return accountRepository.findById(id).get();
+        return accountRepository.findById(id).orElseThrow(() -> new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));
     }
 
     @Transactional
